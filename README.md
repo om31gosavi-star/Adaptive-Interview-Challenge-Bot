@@ -1,6 +1,12 @@
-# 🤖 Adaptive AI Mock Interview Simulation Bot (C++)
+# 🤖 Adaptive AI Mock Interview Simulation Bot (C++ & Web)
 
-A high-performance, adaptive mock interview simulation engine engineered in modern C++ (C++17). Designed to simulate realistic technical screening and bar-raiser loops at top tech companies (FAANG/Tier-1), featuring real-time **Elo-based difficulty adaptation**, **multi-track question banks**, **interactive interviewer personas**, **dynamic follow-up probing**, and automated **dual report generation** (Markdown and Interactive HTML).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/om31gosavi-star/Adaptive-Interview-Challenge-Bot)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://om31gosavi-star.github.io/Adaptive-Interview-Challenge-Bot/)
+
+> 🌐 **Live Web Application:** [https://om31gosavi-star.github.io/Adaptive-Interview-Challenge-Bot/](https://om31gosavi-star.github.io/Adaptive-Interview-Challenge-Bot/)  
+> ⚡ **Deploy to Vercel with 1-Click:** [https://vercel.com/new/clone?repository-url=https://github.com/om31gosavi-star/Adaptive-Interview-Challenge-Bot](https://vercel.com/new/clone?repository-url=https://github.com/om31gosavi-star/Adaptive-Interview-Challenge-Bot)
+
+A high-performance, adaptive mock interview simulation engine engineered in modern C++ (C++17) with a companion interactive Web Application. Designed to simulate realistic technical screening and bar-raiser loops at top tech companies (FAANG/Tier-1), featuring real-time **Elo-based difficulty adaptation**, **multi-track question banks**, **interactive interviewer personas**, **dynamic follow-up probing**, and automated **dual report generation** (Markdown and Interactive HTML).
 
 ---
 

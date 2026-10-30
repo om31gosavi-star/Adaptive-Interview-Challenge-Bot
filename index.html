@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mock Interview Challenge | Adaptive C++ & Systems Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --surface: #111827;
+            --surface-card: #1a2234;
+            --border: #26334d;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.25);
+            --accent: #818cf8;
+            --accent-glow: rgba(129, 140, 248, 0.25);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 16px 24px;
+        }
+
+        .nav-container {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            color: #000;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .nav-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+        }
+
+        .stat-pill {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Screens */
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.3s ease-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero / Setup */
+        .hero {
+            text-align: center;
+            padding: 40px 0 20px 0;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-dim);
+            font-size: 17px;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+        }
+
+        .setup-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 26px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #f1f5f9;
+        }
+
+        .input-text {
+            width: 100%;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-text:focus { border-color: var(--primary); }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        .select-card {
+            background: var(--surface-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .select-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .select-card.selected {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: 0 0 18px var(--primary-glow);
+        }
+
+        .select-title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-desc {
+            font-size: 13px;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #3b82f6);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--surface-card);
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #222f46;
+        }
+
+        /* Interview Room */
+        .interview-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 860px) {
+            .interview-layout { grid-template-columns: 1fr; }
+        }
+
+        .sidebar-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            height: fit-content;
+        }
+
+        .interviewer-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 16px;
+            border: 2px solid var(--border);
+        }
+
+        .main-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .q-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .badge-diff {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .diff-EASY { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .diff-MEDIUM { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .diff-HARD { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .diff-EXPERT { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+        .interviewer-speech {
+            background: #0d131f;
+            border-left: 3px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: #e2e8f0;
+            position: relative;
+        }
+
+        .q-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .q-prompt {
+            font-size: 15px;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 180px;
+            background: #0a0e17;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            color: #f8fafc;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .code-textarea:focus { border-color: var(--primary); }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Round Evaluation Overlay */
+        .eval-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .eval-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .eval-metric {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .pill {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .pill-covered { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .pill-missed { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .pill-bonus { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
+
+        /* Report Screen */
+        .report-header {
+            text-align: center;
+            padding: 20px 0 40px 0;
+        }
+        .verdict-tag {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 999px;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-top: 15px;
+        }
+        .verdict-STRONG_HIRE { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 2px solid #22c55e; }
+        .verdict-HIRE { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 2px solid #0284c7; }
+        .verdict-LEANING_HIRE { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 2px solid #f59e0b; }
+        .verdict-LEANING_NO_HIRE { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 2px solid #f97316; }
+        .verdict-NO_HIRE { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 2px solid #ef4444; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="brand">
+                <span>🤖 ADAPTIVE INTERVIEW CHALLENGE</span>
+                <span class="brand-badge">C++ AI ENGINE</span>
+            </div>
+            <div class="nav-stats">
+                <div class="stat-pill">
+                    <span style="color: var(--text-dim);">ELO RATING:</span>
+                    <span id="nav-elo" style="color: var(--primary);">1200</span>
+                </div>
+                <div class="stat-pill">
+                    <span style="color: var(--text-dim);">ROUND:</span>
+                    <span id="nav-round">0 / 4</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- SCREEN 1: SETUP -->
+        <div id="screen-setup" class="screen active">
+            <div class="hero">
+                <h1>Adaptive AI Mock Interview Simulation</h1>
+                <p>Real-time dynamic difficulty calibration, multi-persona FAANG bar-raisers, and deep technical evaluation in C++ and Systems Engineering.</p>
+            </div>
+
+            <div class="setup-card">
+                <div class="form-group">
+                    <label class="form-label">Candidate Name</label>
+                    <input type="text" id="candidate-name" class="input-text" placeholder="e.g. Om Gosavi" value="Senior Engineer">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Interviewer Persona</label>
+                    <div class="selector-grid">
+                        <div class="select-card selected" onclick="selectPersona(0, this)">
+                            <div class="select-title">
+                                <span>Alex Vance</span>
+                                <span>👔</span>
+                            </div>
+                            <div style="font-size: 12px; color: var(--primary); margin-bottom: 4px;">FAANG Bar Raiser</div>
+                            <div class="select-desc">Rigorous, demands Big-O proofs, edge cases, cache lines, and low tolerance for hand-waving.</div>
+                        </div>
+                        <div class="select-card" onclick="selectPersona(1, this)">
+                            <div class="select-title">
+                                <span>Elena Rostova</span>
+                                <span>👩‍💻</span>
+                            </div>
+                            <div style="font-size: 12px; color: #4ade80; margin-bottom: 4px;">Staff Tech Lead</div>
+                            <div class="select-desc">Pragmatic, focuses on production failure modes, observability, maintainability, and clean design.</div>
+                        </div>
+                        <div class="select-card" onclick="selectPersona(2, this)">
+                            <div class="select-title">
+                                <span>Marcus Sterling</span>
+                                <span>🧠</span>
+                            </div>
+                            <div style="font-size: 12px; color: #c084fc; margin-bottom: 4px;">Principal Architect</div>
+                            <div class="select-desc">Systems thinker, whiteboarding partner, explores trade-offs and scaling under ambiguity.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Interview Track</label>
+                    <div class="selector-grid">
+                        <div class="select-card selected" onclick="selectTrack('MODERN_CPP', this)">
+                            <div class="select-title">Modern C++ & Low-Level</div>
+                            <div class="select-desc">RAII, Smart Pointers, Move Semantics, vtables, Atomics, Memory Ordering, Cache False Sharing.</div>
+                        </div>
+                        <div class="select-card" onclick="selectTrack('ALGORITHMS_DSA', this)">
+                            <div class="select-title">Data Structures & Algorithms</div>
+                            <div class="select-desc">Hash Table collisions, Dijkstra vs BFS, LRU Cache O(1), Stream Top-K Count-Min Sketch.</div>
+                        </div>
+                        <div class="select-card" onclick="selectTrack('SYSTEM_DESIGN', this)">
+                            <div class="select-title">System Design & Scalability</div>
+                            <div class="select-desc">Load balancing, Cache Stampede / Thundering Herd, B+ vs LSM Trees, 10M RPS Rate Limiter.</div>
+                        </div>
+                        <div class="select-card" onclick="selectTrack('BEHAVIORAL', this)">
+                            <div class="select-title">Behavioral & Leadership</div>
+                            <div class="select-desc">STAR method, technical conflict resolution, P0 outage triage, and technical debt negotiation.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn-primary" onclick="startInterview()">
+                        <span>🚀 Begin Adaptive Mock Interview</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: INTERVIEW ROOM -->
+        <div id="screen-interview" class="screen">
+            <div class="interview-layout">
+                <!-- Sidebar -->
+                <div class="sidebar-card">
+                    <div class="interviewer-avatar" id="room-avatar">👔</div>
+                    <h3 id="room-interviewer-name" style="font-size: 18px; margin-bottom: 4px;">Alex Vance</h3>
+                    <div id="room-interviewer-role" style="font-size: 13px; color: var(--primary); margin-bottom: 16px;">FAANG Bar Raiser</div>
+                    
+                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 16px 0;">
+
+                    <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 8px;">ACTIVE TRACK</div>
+                    <div id="room-track-name" style="font-weight: 600; font-size: 14px; margin-bottom: 16px;">Modern C++</div>
+
+                    <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 8px;">TIMER</div>
+                    <div id="room-timer" style="font-size: 26px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: #fff;">00:00</div>
+                </div>
+
+                <!-- Main Question Area -->
+                <div class="main-card">
+                    <div class="q-header-meta">
+                        <div>
+                            <span id="room-round-badge" style="font-size: 13px; font-weight: 700; color: var(--text-dim);">ROUND 1 OF 4</span>
+                            <span style="margin: 0 8px; color: var(--border);">•</span>
+                            <span id="room-topic" style="font-size: 13px; color: var(--text-dim);">Memory Management</span>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <span id="room-diff-badge" class="badge-diff diff-MEDIUM">MEDIUM</span>
+                        </div>
+                    </div>
+
+                    <div class="interviewer-speech">
+                        <div style="font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 4px;" id="speech-speaker">INTERVIEWER REMARK:</div>
+                        <div id="room-speech">Welcome. Let's start with a foundational question on ownership semantics.</div>
+                    </div>
+
+                    <div class="q-title" id="room-q-title">RAII and Smart Pointers vs Raw Pointers</div>
+                    <div class="q-prompt" id="room-q-prompt">Explain the concept of RAII in C++. How does std::unique_ptr enforce exclusive ownership compared to raw pointers, and what is its runtime overhead?</div>
+
+                    <!-- Editor -->
+                    <div class="editor-container">
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim);">
+                            <span>Your Technical Response & Code Explanation:</span>
+                            <span id="char-count">0 words</span>
+                        </div>
+                        <textarea id="candidate-answer" class="code-textarea" placeholder="Type your detailed explanation, edge-case analysis, and code reasoning here..."></textarea>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="action-bar">
+                        <div class="btn-group">
+                            <button class="btn-secondary" onclick="requestHint()">💡 Request Hint (-10 pts)</button>
+                            <button class="btn-secondary" onclick="requestClarification()">❓ Ask Clarification</button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn-secondary" onclick="skipQuestion()" style="color: var(--text-dim);">Skip</button>
+                            <button class="btn-primary" onclick="submitAnswer()">Submit Response ➔</button>
+                        </div>
+                    </div>
+
+                    <!-- Round Evaluation Card (Reveals after submit) -->
+                    <div id="eval-section" style="display: none;" class="eval-card">
+                        <h3 style="font-size: 17px; margin-bottom: 14px; color: #fff;">Round Evaluation & Critique</h3>
+                        
+                        <div class="eval-grid">
+                            <div class="eval-metric">
+                                <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">CALIBRATION SCORE</div>
+                                <div id="eval-score" style="font-size: 28px; font-weight: 800; color: #fff;">85/100</div>
+                            </div>
+                            <div class="eval-metric">
+                                <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">ELO ADJUSTMENT</div>
+                                <div id="eval-elo-delta" style="font-size: 28px; font-weight: 800; color: var(--success);">+24</div>
+                            </div>
+                            <div class="eval-metric">
+                                <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">DEPTH RATING</div>
+                                <div id="eval-depth" style="font-size: 16px; font-weight: 700; color: var(--primary); margin-top: 6px;">Competent</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 13px; font-weight: 600; color: #fff;">Concept Breakdown:</div>
+                        <div id="eval-pills" class="pill-container"></div>
+
+                        <div class="interviewer-speech" style="margin-top: 14px;">
+                            <div style="font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">INTERVIEWER FEEDBACK:</div>
+                            <div id="eval-critique"></div>
+                        </div>
+
+                        <div style="text-align: right; margin-top: 20px;">
+                            <button class="btn-primary" id="btn-next-round" onclick="nextRound()">Next Challenge ➔</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: FINAL REPORT -->
+        <div id="screen-report" class="screen">
+            <div class="report-header">
+                <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">Interview Performance & Hiring Verdict</h1>
+                <p id="report-meta" style="color: var(--text-dim);"></p>
+                <div id="report-verdict" class="verdict-tag">STRONG HIRE</div>
+            </div>
+
+            <div class="setup-card">
+                <div class="eval-grid" style="margin-bottom: 30px;">
+                    <div class="eval-metric">
+                        <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">OVERALL SCORE</div>
+                        <div id="rep-score" style="font-size: 36px; font-weight: 800; color: #fff;">0%</div>
+                    </div>
+                    <div class="eval-metric">
+                        <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">FINAL ELO RATING</div>
+                        <div id="rep-elo" style="font-size: 36px; font-weight: 800; color: var(--primary);">1200</div>
+                    </div>
+                    <div class="eval-metric">
+                        <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 4px;">TOTAL ROUNDS</div>
+                        <div id="rep-rounds" style="font-size: 36px; font-weight: 800; color: #fff;">4</div>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 18px; margin-bottom: 16px;">Round-by-Round Breakdown</h3>
+                <div id="report-rounds-list" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px;"></div>
+
+                <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+                    <button class="btn-primary" onclick="downloadReport('md')">📄 Download Markdown Report</button>
+                    <button class="btn-secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+                    <button class="btn-secondary" onclick="location.reload()">🔄 Start New Interview</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Adaptive AI Mock Interview Simulation Engine • C++17 Core & Web Application • Open Source on GitHub
+    </footer>
+
+    <!-- Interview Engine Logic -->
+    <script>
+        // Question Bank
+        const QUESTION_DATABASE = [
+            // Modern C++
+            {
+                id: "CPP_EASY_1", track: "MODERN_CPP", diff: "EASY", topic: "Resource Management (RAII)",
+                title: "RAII and Smart Pointers vs Raw Pointers",
+                prompt: "Explain the concept of RAII in C++. How does std::unique_ptr enforce exclusive ownership compared to raw pointers, and what is its runtime overhead?",
+                hint: "Think about destructor cleanup on scope exit, delete operator, and zero-cost abstractions.",
+                clarify: "Assume C++11 and later. Focus on single-object ownership semantics.",
+                keys: ["raii", "destructor", "unique_ptr", "ownership", "scope", "delete", "zero overhead"],
+                bonus: ["custom deleter", "stack unwinding", "noexcept", "move only"]
+            },
+            {
+                id: "CPP_MED_1", track: "MODERN_CPP", diff: "MEDIUM", topic: "Memory Management & Semantics",
+                title: "Move Semantics, Rvalues, and std::forward",
+                prompt: "Explain the difference between lvalues and rvalues in Modern C++. What problem does std::move solve, and how does perfect forwarding with std::forward<T> prevent unnecessary copies in templates?",
+                hint: "Consider value categories (lvalue vs rvalue/xvalue), universal references (T&&), and reference collapsing.",
+                clarify: "Focus on standard C++14/17 semantics and function template argument deduction.",
+                keys: ["move semantics", "lvalue", "rvalue", "std::move", "std::forward", "perfect forwarding", "universal reference"],
+                bonus: ["xvalue", "prvalue", "reference collapsing", "noexcept move"]
+            },
+            {
+                id: "CPP_HARD_1", track: "MODERN_CPP", diff: "HARD", topic: "Object Model & Polymorphism",
+                title: "Virtual Method Table (vtable), Memory Layout & Destructors",
+                prompt: "Describe the internal memory layout of a C++ polymorphic class. How does dynamic dispatch work via vtable and vptr? Why is a non-virtual destructor in a base class dangerous when deleting via base pointer?",
+                hint: "Think about hidden vptr pointers added to the object, indirect calls, and undefined behavior.",
+                clarify: "Assume standard 64-bit architecture with common Itanium/MSVC ABI layout.",
+                keys: ["vtable", "vptr", "dynamic dispatch", "virtual destructor", "undefined behavior", "offset", "memory layout"],
+                bonus: ["multiple inheritance", "thunk", "typeinfo", "rtti"]
+            },
+            {
+                id: "CPP_EXP_1", track: "MODERN_CPP", diff: "EXPERT", topic: "Concurrency & Memory Model",
+                title: "C++ Memory Ordering, Atomics and Cache Coherence",
+                prompt: "Explain the difference between std::memory_order_relaxed, std::memory_order_acquire, std::memory_order_release, and seq_cst. How does hardware-level cache line false sharing occur, and how do you resolve it?",
+                hint: "Think about happens-before relationships, store buffers, MESI cache coherence, and alignas(64).",
+                clarify: "Focus on the C++11 memory model and modern x86/ARM multi-core architectures.",
+                keys: ["acquire", "release", "relaxed", "seq_cst", "false sharing", "cache line", "alignas", "atomic"],
+                bonus: ["mesi", "store buffer", "instruction reordering", "lock-free"]
+            },
+            // DSA
+            {
+                id: "DSA_EASY_1", track: "ALGORITHMS_DSA", diff: "EASY", topic: "Hash Tables & Complexity",
+                title: "Hash Map Collision Resolution & Amortized Complexity",
+                prompt: "How does a Hash Table achieve O(1) average time complexity? Compare Separate Chaining with Open Addressing, and explain what causes worst-case O(N) performance.",
+                hint: "Discuss hash functions, uniform distribution, load factor, and rehashing.",
+                clarify: "Assume a standard key-value map like std::unordered_map.",
+                keys: ["hash function", "collision", "separate chaining", "open addressing", "load factor", "amortized", "o(1)"],
+                bonus: ["robin hood hashing", "tombstone", "rehash"]
+            },
+            {
+                id: "DSA_MED_1", track: "ALGORITHMS_DSA", diff: "MEDIUM", topic: "Graph Algorithms & Traversals",
+                title: "Shortest Path: Dijkstra's Algorithm vs BFS",
+                prompt: "Under what conditions would you choose BFS over Dijkstra's Algorithm? What is the time complexity of Dijkstra when implemented with a min-priority queue, and how do you handle negative edge weights?",
+                hint: "Think about unweighted vs weighted graphs, edge relaxations, and why Dijkstra fails on negative cycles (Bellman-Ford).",
+                clarify: "State vertices as V and edges as E in adjacency list representation.",
+                keys: ["bfs", "dijkstra", "priority queue", "unweighted", "weighted", "o((v + e) log v)", "negative weight", "bellman-ford"],
+                bonus: ["greedy", "relaxation", "fibonacci heap"]
+            },
+            {
+                id: "DSA_HARD_1", track: "ALGORITHMS_DSA", diff: "HARD", topic: "Advanced System & Algorithm Design",
+                title: "LRU Cache: O(1) Get and Put Design",
+                prompt: "Design an LRU (Least Recently Used) Cache with strict O(1) time complexity for both get and put operations. Describe the exact data structures you would combine and how node eviction works.",
+                hint: "Consider combining a doubly linked list with a hash map.",
+                clarify: "Target standard capacity N, avoiding O(N) shifts or scans.",
+                keys: ["doubly linked list", "hash map", "o(1)", "eviction", "head", "tail", "mutex", "splice"],
+                bonus: ["dummy head tail", "shared_mutex", "read write lock"]
+            },
+            // System Design
+            {
+                id: "SYS_EASY_1", track: "SYSTEM_DESIGN", diff: "EASY", topic: "Scaling Fundamentals",
+                title: "Horizontal vs Vertical Scaling and Load Balancing",
+                prompt: "Explain the difference between horizontal and vertical scaling. What role does a Load Balancer play, and how do Round Robin, Least Connections, and IP Hash algorithms differ?",
+                hint: "Consider single points of failure, stateless web tiers, and health checks.",
+                clarify: "Focus on web architecture scaling from a single server to a multi-instance cluster.",
+                keys: ["horizontal scaling", "vertical scaling", "load balancer", "round robin", "least connections", "stateless"],
+                bonus: ["consistent hashing", "sticky session", "health check"]
+            },
+            {
+                id: "SYS_MED_1", track: "SYSTEM_DESIGN", diff: "MEDIUM", topic: "Distributed Caching",
+                title: "Caching Strategies & Preventing Cache Stampede",
+                prompt: "Compare Cache-Aside, Write-Through, and Write-Back caching patterns. What is a Cache Stampede (Thundering Herd) when a hot key expires, and what architectural mechanisms prevent it?",
+                hint: "Think about distributed mutex locks, SingleFlight request deduplication, and probabilistic early expiration (XFetch).",
+                clarify: "Assume high-traffic e-commerce system with 50,000 requests/sec.",
+                keys: ["cache-aside", "write-through", "write-back", "cache stampede", "thundering herd", "mutex", "ttl", "singleflight"],
+                bonus: ["xfetch", "bloom filter", "redis"]
+            },
+            // Behavioral
+            {
+                id: "BEH_EASY_1", track: "BEHAVIORAL", diff: "EASY", topic: "Technical Disagreements",
+                title: "Resolving an Architectural Disagreement in a Team",
+                prompt: "Tell me about a time you had a strong technical disagreement with a peer or lead on a design or technology choice. Walk me through using Situation, Task, Action, and Result (STAR).",
+                hint: "Use the STAR framework explicitly. Highlight data-driven evaluation, benchmarks, or prototypes.",
+                clarify: "Focus on professional collaboration and 'disagree and commit' principles.",
+                keys: ["situation", "task", "action", "result", "disagreement", "trade-off", "benchmark", "compromise"],
+                bonus: ["disagree and commit", "rfc", "data driven"]
+            }
+        ];
+
+        const PERSONAS = [
+            {
+                name: "Alex Vance", role: "FAANG Bar Raiser", avatar: "👔",
+                greet: "I evaluate algorithmic rigor, fundamental principles, and edge-case handling. Be precise, mention Big-O complexities, and explain your technical rationale."
+            },
+            {
+                name: "Elena Rostova", role: "Staff Tech Lead", avatar: "👩‍💻",
+                greet: "I care about how you think through real-world systems, code safety, and production maintainability. Walk me through your design decisions."
+            },
+            {
+                name: "Marcus Sterling", role: "Principal Architect", avatar: "🧠",
+                greet: "Great to meet you! Treat this as a collaborative whiteboarding session. Focus on trade-offs and structural decoupling."
+            }
+        ];
+
+        // Session State
+        let session = {
+            candidateName: "Senior Engineer",
+            personaIndex: 0,
+            track: "MODERN_CPP",
+            currentElo: 1200,
+            peakElo: 1200,
+            roundIndex: 0,
+            maxRounds: 4,
+            evaluations: [],
+            currentQuestion: null,
+            timerInterval: null,
+            secondsElapsed: 0,
+            hintsUsedInRound: false,
+            clarificationsUsedInRound: false
+        };
+
+        function selectPersona(idx, el) {
+            session.personaIndex = idx;
+            document.querySelectorAll('#screen-setup .selector-grid')[0].querySelectorAll('.select-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function selectTrack(track, el) {
+            session.track = track;
+            document.querySelectorAll('#screen-setup .selector-grid')[1].querySelectorAll('.select-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function startInterview() {
+            const nameInput = document.getElementById('candidate-name').value.trim();
+            if (nameInput) session.candidateName = nameInput;
+
+            document.getElementById('screen-setup').classList.remove('active');
+            document.getElementById('screen-interview').classList.add('active');
+
+            const p = PERSONAS[session.personaIndex];
+            document.getElementById('room-avatar').innerText = p.avatar;
+            document.getElementById('room-interviewer-name').innerText = p.name;
+            document.getElementById('room-interviewer-role').innerText = p.role;
+            document.getElementById('room-track-name').innerText = session.track.replace('_', ' ');
+
+            loadNextQuestion();
+        }
+
+        function determineTargetDifficulty(elo) {
+            if (elo >= 1500) return "EXPERT";
+            if (elo >= 1320) return "HARD";
+            if (elo >= 1150) return "MEDIUM";
+            return "EASY";
+        }
+
+        function loadNextQuestion() {
+            session.roundIndex++;
+            session.hintsUsedInRound = false;
+            session.clarificationsUsedInRound = false;
+
+            document.getElementById('eval-section').style.display = 'none';
+            document.getElementById('candidate-answer').value = '';
+            document.getElementById('candidate-answer').disabled = false;
+            document.getElementById('char-count').innerText = '0 words';
+
+            document.getElementById('nav-round').innerText = `${session.roundIndex} / ${session.maxRounds}`;
+            document.getElementById('room-round-badge').innerText = `ROUND ${session.roundIndex} OF ${session.maxRounds}`;
+
+            // Pick question matching difficulty & track
+            const targetDiff = determineTargetDifficulty(session.currentElo);
+            let pool = QUESTION_DATABASE.filter(q => q.track === session.track && !session.evaluations.some(e => e.id === q.id));
+            if (pool.length === 0) pool = QUESTION_DATABASE.filter(q => q.track === session.track);
+            
+            let q = pool.find(item => item.diff === targetDiff) || pool[0];
+            session.currentQuestion = q;
+
+            document.getElementById('room-topic').innerText = q.topic;
+            document.getElementById('room-diff-badge').className = `badge-diff diff-${q.diff}`;
+            document.getElementById('room-diff-badge').innerText = q.diff;
+            document.getElementById('room-q-title').innerText = q.title;
+            document.getElementById('room-q-prompt').innerText = q.prompt;
+
+            const p = PERSONAS[session.personaIndex];
+            document.getElementById('room-speech').innerText = session.roundIndex === 1 ? p.greet : `Let's proceed to Round ${session.roundIndex}. Focus on the core mechanics and trade-offs.`;
+
+            // Start timer
+            session.secondsElapsed = 0;
+            clearInterval(session.timerInterval);
+            session.timerInterval = setInterval(() => {
+                session.secondsElapsed++;
+                const mins = String(Math.floor(session.secondsElapsed / 60)).padStart(2, '0');
+                const secs = String(session.secondsElapsed % 60).padStart(2, '0');
+                document.getElementById('room-timer').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        document.getElementById('candidate-answer').addEventListener('input', (e) => {
+            const words = e.target.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+            document.getElementById('char-count').innerText = `${words} words`;
+        });
+
+        function requestHint() {
+            session.hintsUsedInRound = true;
+            document.getElementById('room-speech').innerText = `[Hint from ${PERSONAS[session.personaIndex].name}]: "${session.currentQuestion.hint}" (Noted: 10 pt penalty applied to calibration).`;
+        }
+
+        function requestClarification() {
+            session.clarificationsUsedInRound = true;
+            document.getElementById('room-speech').innerText = `[Clarification]: "${session.currentQuestion.clarify}"`;
+        }
+
+        function skipQuestion() {
+            document.getElementById('candidate-answer').value = "Skipped question.";
+            submitAnswer();
+        }
+
+        function submitAnswer() {
+            clearInterval(session.timerInterval);
+            const answer = document.getElementById('candidate-answer').value.trim();
+            if (!answer) {
+                alert("Please type a response before submitting.");
+                return;
+            }
+
+            document.getElementById('candidate-answer').disabled = true;
+
+            const q = session.currentQuestion;
+            const normAns = answer.toLowerCase();
+
+            // Evaluate concept coverage
+            let covered = [];
+            let missed = [];
+            q.keys.forEach(k => {
+                if (normAns.includes(k.toLowerCase())) covered.push(k);
+                else missed.push(k);
+            });
+
+            let bonusCovered = [];
+            if (q.bonus) {
+                q.bonus.forEach(b => {
+                    if (normAns.includes(b.toLowerCase())) bonusCovered.push(b);
+                });
+            }
+
+            // Word count & analytical weight
+            const words = answer.split(/\s+/).length;
+            let lengthScore = words >= 40 ? 1.0 : (words >= 20 ? 0.7 : 0.4);
+
+            let keyRatio = q.keys.length > 0 ? covered.length / q.keys.length : 1.0;
+            let bonusRatio = q.bonus ? Math.min(1.0, bonusCovered.length / 2.0) : 0.0;
+
+            let rawScore = (keyRatio * 60.0) + (bonusRatio * 25.0) + (lengthScore * 15.0);
+            if (session.hintsUsedInRound) rawScore -= 10.0;
+            rawScore = Math.max(5, Math.min(100, Math.round(rawScore)));
+
+            // Elo calculation
+            const diffBase = { EASY: 1000, MEDIUM: 1250, HARD: 1500, EXPERT: 1750 };
+            const qRating = diffBase[q.diff] || 1250;
+            const expectedScore = 1.0 / (1.0 + Math.pow(10.0, (qRating - session.currentElo) / 400.0));
+            const actualScore = rawScore / 100.0;
+            const eloDelta = Math.round(48 * (actualScore - expectedScore));
+
+            const oldElo = session.currentElo;
+            session.currentElo = Math.max(600, session.currentElo + eloDelta);
+            if (session.currentElo > session.peakElo) session.peakElo = session.currentElo;
+
+            document.getElementById('nav-elo').innerText = session.currentElo;
+
+            // Depth rating
+            let depth = "Surface Level";
+            if (rawScore >= 80) depth = "High Technical Mastery";
+            else if (rawScore >= 55) depth = "Competent Working Knowledge";
+
+            // Critique
+            const p = PERSONAS[session.personaIndex];
+            let critique = "";
+            if (rawScore >= 80) {
+                critique = `${p.name}: "Impressive depth. You articulated the core invariants and nuances cleanly."`;
+            } else if (rawScore >= 55) {
+                critique = `${p.name}: "Fair analysis. You captured the general idea, but lacked depth on ${missed[0] || 'edge cases'}."`;
+            } else {
+                critique = `${p.name}: "Too surface-level. In a senior loop, you need to anchor your explanation in mechanical realities."`;
+            }
+
+            session.evaluations.push({
+                id: q.id, title: q.title, topic: q.topic, diff: q.diff,
+                userAnswer: answer, score: rawScore, oldElo, newElo: session.currentElo,
+                eloDelta, covered, missed, bonusCovered, depth, critique, time: session.secondsElapsed
+            });
+
+            // Display in Evaluation Card
+            document.getElementById('eval-score').innerText = `${rawScore}/100`;
+            document.getElementById('eval-elo-delta').innerText = `${eloDelta >= 0 ? '+' : ''}${eloDelta} (Now ${session.currentElo})`;
+            document.getElementById('eval-elo-delta').style.color = eloDelta >= 0 ? 'var(--success)' : 'var(--danger)';
+            document.getElementById('eval-depth').innerText = depth;
+            document.getElementById('eval-critique').innerText = critique;
+
+            const pillContainer = document.getElementById('eval-pills');
+            pillContainer.innerHTML = '';
+            covered.forEach(c => pillContainer.innerHTML += `<span class="pill pill-covered">✓ ${c}</span>`);
+            missed.forEach(m => pillContainer.innerHTML += `<span class="pill pill-missed">✗ Missed: ${m}</span>`);
+            bonusCovered.forEach(b => pillContainer.innerHTML += `<span class="pill pill-bonus">★ Bonus: ${b}</span>`);
+
+            document.getElementById('eval-section').style.display = 'block';
+
+            if (session.roundIndex >= session.maxRounds) {
+                document.getElementById('btn-next-round').innerText = 'Finish & View Scorecard ➔';
+            }
+        }
+
+        function nextRound() {
+            if (session.roundIndex >= session.maxRounds) {
+                showFinalReport();
+            } else {
+                loadNextQuestion();
+            }
+        }
+
+        function calculateVerdict(avgScore, elo) {
+            if (elo >= 1480 && avgScore >= 80) return "STRONG_HIRE";
+            if (elo >= 1320 && avgScore >= 65) return "HIRE";
+            if (elo >= 1150 && avgScore >= 50) return "LEANING_HIRE";
+            if (elo >= 1050) return "LEANING_NO_HIRE";
+            return "NO_HIRE";
+        }
+
+        function showFinalReport() {
+            document.getElementById('screen-interview').classList.remove('active');
+            document.getElementById('screen-report').classList.add('active');
+
+            const totalScore = session.evaluations.reduce((sum, e) => sum + e.score, 0);
+            const avgScore = Math.round(totalScore / session.evaluations.length);
+            const verdict = calculateVerdict(avgScore, session.currentElo);
+
+            document.getElementById('report-meta').innerText = `Candidate: ${session.candidateName} • Evaluated by ${PERSONAS[session.personaIndex].name} • Track: ${session.track.replace('_', ' ')}`;
+            
+            const verdictTag = document.getElementById('report-verdict');
+            verdictTag.className = `verdict-tag verdict-${verdict}`;
+            verdictTag.innerText = verdict.replace(/_/g, ' ');
+
+            document.getElementById('rep-score').innerText = `${avgScore}%`;
+            document.getElementById('rep-elo').innerText = session.currentElo;
+            document.getElementById('rep-rounds').innerText = session.evaluations.length;
+
+            const roundsList = document.getElementById('report-rounds-list');
+            roundsList.innerHTML = '';
+            session.evaluations.forEach((e, idx) => {
+                roundsList.innerHTML += `
+                    <div class="eval-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 700; color: #fff;">Round ${idx+1}: ${e.title}</span>
+                            <span class="badge-diff diff-${e.diff}">${e.score}/100</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 8px;">${e.depth} • Elo: ${e.oldElo} ➔ ${e.newElo} (${e.eloDelta >= 0 ? '+' : ''}${e.eloDelta})</div>
+                        <div style="font-size: 13.5px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px;">${e.userAnswer}</div>
+                        <div style="font-size: 13px; color: #93c5fd; font-style: italic;">${e.critique}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function downloadReport(format) {
+            let content = `# AI Mock Interview Performance Evaluation Report\n\n`;
+            content += `Candidate: ${session.candidateName}\nTrack: ${session.track}\nInterviewer: ${PERSONAS[session.personaIndex].name}\n\n`;
+            content += `Final Elo: ${session.currentElo} | Peak: ${session.peakElo}\n\n`;
+            session.evaluations.forEach((e, i) => {
+                content += `### Round ${i+1}: ${e.title} [${e.diff}]\n`;
+                content += `Score: ${e.score}/100 | Elo: ${e.oldElo} -> ${e.newElo}\n`;
+                content += `Answer: ${e.userAnswer}\n`;
+                content += `Feedback: ${e.critique}\n\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `interview_report_${session.candidateName.replace(/\s+/g, '_')}.md`;
+            a.click();
+        }
+    </script>
+</body>
+</html>
