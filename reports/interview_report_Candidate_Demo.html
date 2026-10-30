@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mock Interview Report - Candidate Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090d16;
+            --surface: #111827;
+            --surface-card: #1a2234;
+            --border: #26334d;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.25);
+            --accent: #818cf8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --text-code: #38bdf8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .title h1 {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+        .title p {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+        .verdict-badge {
+            background: #22c55e20;
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .stat-card .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .stat-card .sub {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 6px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 22px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .topic-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .bar-bg {
+            background: rgba(255,255,255,0.06);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border-radius: 4px;
+        }
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .q-header {
+            background: var(--surface-card);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .q-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+        }
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+        .badge-diff {
+            background: #3b82f622;
+            color: #60a5fa;
+            border: 1px solid #3b82f655;
+        }
+        .badge-score {
+            background: #22c55e22;
+            color: #4ade80;
+            border: 1px solid #22c55e55;
+        }
+        .q-body {
+            padding: 24px;
+        }
+        .user-answer {
+            background: #0d131f;
+            border-left: 3px solid var(--primary);
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13.5px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0 20px 0;
+        }
+        .pill {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .pill-covered {
+            background: #15803d22;
+            color: #86efac;
+            border: 1px solid #16a34a44;
+        }
+        .pill-missed {
+            background: #b91c1c22;
+            color: #fca5a5;
+            border: 1px solid #dc262644;
+        }
+        .pill-bonus {
+            background: #7e22ce22;
+            color: #d8b4fe;
+            border: 1px solid #9333ea44;
+        }
+        .feedback-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 15px;
+        }
+        .feedback-box h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            color: var(--text-dim);
+        }
+        .persona-quote {
+            font-style: italic;
+            color: #93c5fd;
+            border-left: 2px solid #60a5fa;
+            padding-left: 12px;
+            margin-top: 12px;
+            font-size: 13.5px;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="title">
+                    <h1>Candidate Demo &mdash; AI Mock Interview Evaluation</h1>
+                    <p>Data Structures & Algorithms &bull; Conducted by Alex Vance (FAANG Bar Raiser) &bull; 2026-10-30 16:36:05</p>
+                </div>
+                <div class="verdict-badge">
+                    <span>&#10004;</span> LEANING HIRE (Promising with minor gaps)
+                </div>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Calibration Score</div>
+                <div class="value">71.5%</div>
+                <div class="sub">Weighted Multi-Factor Metric</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Final Elo Rating</div>
+                <div class="value">1237</div>
+                <div class="sub">Peak Achieved: 1237 (Started at 1200)</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Rounds</div>
+                <div class="value">3</div>
+                <div class="sub">Adaptive Probing Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Time</div>
+                <div class="value">1.9m</div>
+                <div class="sub">Hints Used: 0</div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Topic Competency Matrix</h3>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span>Advanced System & Algorithm Design</span>
+                    <span style="color: var(--primary);">55%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: 55%;"></div>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span>Graph Algorithms & Traversals</span>
+                    <span style="color: var(--primary);">83%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: 83%;"></div>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <span>Hash Tables & Complexity</span>
+                    <span style="color: var(--primary);">75%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: 75%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Round-by-Round Interview Transcripts & Analysis</h3>
+        <div class="question-card">
+            <div class="q-header">
+                <div class="q-title">Round 1: Shortest Path: Dijkstra's Algorithm vs Breadth-First Search (BFS)</div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="badge badge-diff">MEDIUM</span>
+                    <span class="badge badge-score">Score: 83/100</span>
+                </div>
+            </div>
+            <div class="q-body">
+                <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 8px;">Candidate Technical Submission:</div>
+                <div class="user-answer">BFS finds the shortest path in unweighted graphs in linear O(V + E) time. Dijkstra's algorithm is required for weighted graphs with non-negative edges, using a priority queue min-heap in O((V + E) log V) time. Dijkstra cannot handle negative weight edges because its greedy relaxation invariant is violated; Bellman-Ford is needed instead.</div>
+
+                <div style="font-size: 13px; font-weight: 600; color: #fff;">Concepts Evaluated:</div>
+                <div class="pill-container"><span class="pill pill-covered">&#10003; bfs</span><span class="pill pill-covered">&#10003; dijkstra</span><span class="pill pill-covered">&#10003; priority queue</span><span class="pill pill-covered">&#10003; unweighted</span><span class="pill pill-covered">&#10003; weighted</span><span class="pill pill-covered">&#10003; o((v + e) log v)</span><span class="pill pill-covered">&#10003; negative weight</span><span class="pill pill-covered">&#10003; bellman-ford</span><span class="pill pill-bonus">&#9733; Advanced: greedy</span><span class="pill pill-bonus">&#9733; Advanced: relaxation</span>
+                </div>
+
+                <div class="feedback-box">
+                    <h4>Depth Assessment: <span style="color: #fff;">Competent Working Knowledge</span> &bull; Response Time: 28.0s</h4>
+                    <p style="font-size: 14px; margin-bottom: 6px;"><strong>Strengths:</strong> Accurately identified and articulated: 'bfs', 'dijkstra', 'priority queue', 'unweighted', 'weighted', 'o((v + e) log v)', 'negative weight', 'bellman-ford'. Demonstrated senior-level nuance by bringing up: 'greedy', 'relaxation'. </p>
+                    <p style="font-size: 14px;"><strong>Recommended Addition:</strong> Common pitfall to avoid: Believing Dijkstra works on negative edges or claiming BFS works correctly on non-uniform edge weights. </p>
+                    <div class="persona-quote">Alex [Bar Raiser]: 'You had the broad intuition, but missed depth on edge cases. In our bar raiser rounds, that makes a big difference.'</div>
+                </div>
+            </div>
+        </div>
+        <div class="question-card">
+            <div class="q-header">
+                <div class="q-title">Round 2: Hash Map Collision Resolution & Amortized Complexity</div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="badge badge-diff">EASY</span>
+                    <span class="badge badge-score">Score: 76/100</span>
+                </div>
+            </div>
+            <div class="q-body">
+                <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 8px;">Candidate Technical Submission:</div>
+                <div class="user-answer">A hash map uses a hash function to map keys to bucket indices, achieving average O(1) amortized lookup. Separate chaining stores a linked list at each bucket, while open addressing uses linear probing in array slots. When the load factor exceeds 0.75, a rehash doubles bucket capacity. Catastrophic collisions degrade lookup to O(N).</div>
+
+                <div style="font-size: 13px; font-weight: 600; color: #fff;">Concepts Evaluated:</div>
+                <div class="pill-container"><span class="pill pill-covered">&#10003; hash function</span><span class="pill pill-covered">&#10003; collision</span><span class="pill pill-covered">&#10003; separate chaining</span><span class="pill pill-covered">&#10003; open addressing</span><span class="pill pill-covered">&#10003; load factor</span><span class="pill pill-covered">&#10003; amortized</span><span class="pill pill-covered">&#10003; o(1)</span><span class="pill pill-covered">&#10003; bucket</span><span class="pill pill-bonus">&#9733; Advanced: rehash</span>
+                </div>
+
+                <div class="feedback-box">
+                    <h4>Depth Assessment: <span style="color: #fff;">Competent Working Knowledge</span> &bull; Response Time: 38.0s</h4>
+                    <p style="font-size: 14px; margin-bottom: 6px;"><strong>Strengths:</strong> Accurately identified and articulated: 'hash function', 'collision', 'separate chaining', 'open addressing', 'load factor', 'amortized', 'o(1)', 'bucket'. Demonstrated senior-level nuance by bringing up: 'rehash'. </p>
+                    <p style="font-size: 14px;"><strong>Recommended Addition:</strong> Common pitfall to avoid: Not explaining load factor or failing to contrast chaining with open addressing. </p>
+                    <div class="persona-quote">Alex [Bar Raiser]: 'You had the broad intuition, but missed depth on edge cases. In our bar raiser rounds, that makes a big difference.'</div>
+                </div>
+            </div>
+        </div>
+        <div class="question-card">
+            <div class="q-header">
+                <div class="q-title">Round 3: LRU Cache: O(1) Get and Put Design</div>
+                <div style="display: flex; gap: 8px;">
+                    <span class="badge badge-diff">HARD</span>
+                    <span class="badge badge-score">Score: 55/100</span>
+                </div>
+            </div>
+            <div class="q-body">
+                <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 8px;">Candidate Technical Submission:</div>
+                <div class="user-answer">An LRU cache uses a Doubly Linked List paired with a Hash Map to achieve strict O(1) get and put operations. The doubly linked list maintains recency with dummy head and tail sentinel nodes. The hash map stores key to node pointers. On get, the node is spliced to head in O(1). On put, if capacity is reached, we evict the tail node in O(1). For thread safety, we can use std::shared_mutex or fine-grained bucket locks.</div>
+
+                <div style="font-size: 13px; font-weight: 600; color: #fff;">Concepts Evaluated:</div>
+                <div class="pill-container"><span class="pill pill-covered">&#10003; doubly linked list</span><span class="pill pill-covered">&#10003; hash map</span><span class="pill pill-covered">&#10003; o(1)</span><span class="pill pill-covered">&#10003; head</span><span class="pill pill-covered">&#10003; tail</span><span class="pill pill-covered">&#10003; mutex</span><span class="pill pill-covered">&#10003; splice</span><span class="pill pill-missed">&#10007; Missed: eviction</span><span class="pill pill-missed">&#10007; Missed: concurrency</span><span class="pill pill-bonus">&#9733; Advanced: shared_mutex</span>
+                </div>
+
+                <div class="feedback-box">
+                    <h4>Depth Assessment: <span style="color: #fff;">Surface Level Understanding</span> &bull; Response Time: 48.0s</h4>
+                    <p style="font-size: 14px; margin-bottom: 6px;"><strong>Strengths:</strong> Accurately identified and articulated: 'doubly linked list', 'hash map', 'o(1)', 'head', 'tail', 'mutex', 'splice'. Demonstrated senior-level nuance by bringing up: 'shared_mutex'. </p>
+                    <p style="font-size: 14px;"><strong>Recommended Addition:</strong> To level up this answer, integrate key concepts: 'eviction', 'concurrency'. Common pitfall to avoid: Attempting to use a single array or queue which requires O(N) shifting on cache hits. </p>
+                    <div class="persona-quote">Alex [Bar Raiser]: 'That lacked technical precision. You need to anchor your answers in concrete complexity and systems behavior.'</div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            Adaptive AI Mock Interview Simulation Engine &bull; Developed in Modern C++ &bull; 
+            Exported on 2026-10-30 16:36:05
+        </footer>
+    </div>
+</body>
+</html>

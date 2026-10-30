@@ -1,0 +1,9 @@
+# Binaries & Object files
+*.obj
+*.exe
+*.pdb
+*.ilk
+
+# System / IDE
+.vs/
+.vscode/
