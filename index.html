@@ -440,6 +440,99 @@
             color: var(--text-muted);
             font-size: 13px;
         }
+
+        /* Mobile & Tablet Responsive Optimizations */
+        @media (max-width: 640px) {
+            header {
+                padding: 12px 14px;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+            }
+            .nav-stats {
+                width: 100%;
+                justify-content: space-between;
+                font-size: 11px;
+                gap: 6px;
+            }
+            .stat-pill {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+            .container {
+                padding: 0 10px;
+                margin: 14px auto;
+            }
+            .hero {
+                padding: 16px 0 10px 0;
+            }
+            .hero h1 {
+                font-size: 24px;
+                line-height: 1.25;
+            }
+            .hero p {
+                font-size: 13.5px;
+                margin-bottom: 16px;
+            }
+            .setup-card {
+                padding: 16px 12px;
+                border-radius: 14px;
+            }
+            .selector-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .select-card {
+                padding: 14px;
+            }
+            .main-card {
+                padding: 14px;
+                border-radius: 14px;
+                gap: 14px;
+            }
+            .sidebar-card {
+                padding: 14px;
+                border-radius: 14px;
+            }
+            .q-title {
+                font-size: 16px;
+            }
+            .q-prompt {
+                font-size: 13.5px;
+            }
+            .code-textarea {
+                font-size: 13px;
+                height: 140px;
+                padding: 10px;
+            }
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+            }
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 16px;
+                font-size: 14.5px;
+            }
+            .eval-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .verdict-tag {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 <body>
