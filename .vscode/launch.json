@@ -2,14 +2,42 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run Mock Interview Bot",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/MockInterviewBot.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "PATH",
+          "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+        }
+      ],
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
+      "preLaunchTask": "Build Mock Interview Bot (GCC C++17)"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppvsdbg",
+      "type": "cppdbg",
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "console": "externalTerminal",
+      "externalConsole": true,
       "cwd": "c:/Chatbot/src",
-      "program": "c:/Chatbot/src/build/Debug/outDebug"
+      "program": "c:/Chatbot/src/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
     }
   ]
 }

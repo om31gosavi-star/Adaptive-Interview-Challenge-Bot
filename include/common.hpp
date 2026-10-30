@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <chrono>
+#include <ctime>
+#include <cctype>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -148,11 +150,14 @@ struct SessionStatistics {
 inline std::string getCurrentTimestampString() {
     auto now = std::chrono::system_clock::now();
     std::time_t in_time_t = std::chrono::system_clock::to_time_t(now);
-    std::tm buf;
-#if defined(_MSC_VER) || defined(__STDC_SECURE_LIB__)
+    std::tm buf{};
+#if defined(_MSC_VER)
     localtime_s(&buf, &in_time_t);
 #else
-    localtime_r(&in_time_t, &buf);
+    std::tm* tm_ptr = std::localtime(&in_time_t);
+    if (tm_ptr) {
+        buf = *tm_ptr;
+    }
 #endif
     std::ostringstream ss;
     ss << std::put_time(&buf, "%Y-%m-%d %H:%M:%S");
