@@ -1,0 +1,25 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build Mock Interview Bot (MSVC C++17)",
+            "command": "cmd.exe",
+            "args": [
+                "/c",
+                "build.bat"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compiles MockInterviewBot.exe with MSVC x64 and C++17"
+        }
+    ],
+    "version": "2.0.0"
+}

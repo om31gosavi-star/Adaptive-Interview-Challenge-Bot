@@ -1,6 +1,22 @@
-#include "common.hpp"
-#include "ansi_terminal.hpp"
-#include "interview_engine.hpp"
+#if defined(__has_include)
+  #if __has_include("../include/interview_engine.hpp")
+    #include "../include/common.hpp"
+    #include "../include/ansi_terminal.hpp"
+    #include "../include/interview_engine.hpp"
+  #elif __has_include("include/interview_engine.hpp")
+    #include "include/common.hpp"
+    #include "include/ansi_terminal.hpp"
+    #include "include/interview_engine.hpp"
+  #else
+    #include "common.hpp"
+    #include "ansi_terminal.hpp"
+    #include "interview_engine.hpp"
+  #endif
+#else
+  #include "../include/common.hpp"
+  #include "../include/ansi_terminal.hpp"
+  #include "../include/interview_engine.hpp"
+#endif
 
 #include <iostream>
 #include <string>
